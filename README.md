@@ -27,38 +27,27 @@ Este proyecto consiste en un sistema de monitoreo de temperatura en tiempo real 
    - `OneWire`
    - `DallasTemperature`
 
-### Código de Arduino
-El siguiente código configura el Arduino para leer la temperatura del sensor DS18B20 y enviar los datos a través del módulo Bluetooth HC-05.
+## Aplicacion de escritorio
 
-```cpp
-#include <SoftwareSerial.h>
-#include <OneWire.h>
-#include <DallasTemperature.h>
+### Instalación de Dependencias
 
-#define ONE_WIRE_BUS 2
+Para ejecutar la aplicación de escritorio, es necesario instalar las siguientes dependencias:
 
-OneWire oneWire(ONE_WIRE_BUS);
-DallasTemperature sensors(&oneWire);
+1. Clona este repositorio o descarga los archivos del proyecto.
+2. Abre una terminal en la carpeta del proyecto.
+3. Ejecuta el siguiente comando para instalar las dependencias:
 
-SoftwareSerial BTSerial(10, 11); // RX, TX
+- Si trabajas en un entorno virtual (recomendado), asegúrate de activarlo antes de instalar las dependencias:
 
-void setup() {
-  Serial.begin(9600);
-  BTSerial.begin(9600);
-  sensors.begin();
-}
+  ```bash
+  # Crear un entorno virtual (solo una vez)
+  python -m venv venv
 
-void loop() {
-  sensors.requestTemperatures();
-  float temperatureC = sensors.getTempCByIndex(0);
-  
-  String data = String(temperatureC) + " °C";
-  
-  // Envía los datos por Bluetooth
-  BTSerial.println(data);
-  
-  // Muestra los datos en el Serial Monitor
-  Serial.println(data);
-  
-  delay(1000);
-}
+  # Activar el entorno virtual
+  # En Windows:
+  .\venv\Scripts\activate
+  # En macOS/Linux:
+  source venv/bin/activate
+
+  # Instalar dependencias
+  pip install -r requirements.txt
